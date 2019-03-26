@@ -1,4 +1,4 @@
-package com.yan624.simpleproject.controller;
+package io.github.yan624.simpleproject.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Author: zhuchongyan
+ * @Author: Zhu Chongyan
  * @program: yan-simple-project
  * @Date: 2019/01/06 13:54
- * @Version: 1.0
  */
 @RestController
 @RequestMapping("/")

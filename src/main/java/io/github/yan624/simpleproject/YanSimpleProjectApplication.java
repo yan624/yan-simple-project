@@ -1,4 +1,4 @@
-package com.yan624.simpleproject;
+package io.github.yan624.simpleproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
