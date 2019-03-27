@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class SimpleController {
 
-
     @GetMapping(value = "/demo", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String simple(){
         return "一个简单栗子";

@@ -10,6 +10,10 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <shiro-spring>1.4.0</shiro-spring>
+        <!-- 视图层，在springboot工程中二者缺一不可，因为springboot默认依赖thymeleaf2.0 -->
+        <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version><!-- thymeleaf版本 -->
+        <thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
     </properties>
 
     <dependencyManagement>
@@ -33,7 +37,39 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--
+        依赖放置顺序：
+        1.我的工具项目
+        2.spring
+        3.spring-boot
+        4.其他框架集成spring
+        5.其他主要框架
+        6.其他小型框架
+        7.测试框架
+        8.某些对开发没有直观影响的插件，如热部署、lombok等
+        如果某些框架需要同时引入自身框架的依赖以及集成spring或springboot的依赖，那么放置顺序不考虑spring以及spirngboot的顺序，
+        可以观察我引入的thymeleaf，虽然其中有springboot相关框架的依赖但是我却放在了很下面。按ctrl f，输入start thymeleaf查询。
+    -->
+    <!-- 此pom.xml配置未引入slf4j框架的依赖。但是实际上其中很多项目都已经依赖了slf4j，所以该项目可以直接使用。 -->
     <dependencies>
+        <dependency>
+            <groupId>io.github.yan624</groupId>
+            <artifactId>yan-common</artifactId>
+            <version>LianQi.L1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.yan624</groupId>
+            <artifactId>yan-utils</artifactId>
+            <version>LianQi.L1</version>
+        </dependency>
+
+        <!-- 为了使用@ConfigurationProperties注解，必须加入这个-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--@RestController在里面-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,12 +88,63 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- 权限控制 -->
+        <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro-spring}</version>
+        </dependency>
+
+        <!-- start thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>nz.net.ultraq.thymeleaf</groupId>
+                    <artifactId>thymeleaf-layout-dialect</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf-spring4</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>${thymeleaf-layout-dialect.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- end thymeleaf -->
+
         <!--用于测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <exclusions>
-                <!-- 这个jar包里面有一个依赖是org.json，但是这个json是android的，所以会有一点冲突 -->
+                <!--
+                    这个jar包里面有一个依赖是org.json，但是这个json是android的，所以会有一点冲突
+                    2019.03.27更新：貌似没多大关系，但是以前会出问题，所以这个exclusion继续留着。
+                    另外在spring-boot-configuration-processor中已经引入该依赖，所以去除也没什么不对。
+                -->
                 <exclusion>
                     <groupId>org.skyscreamer</groupId>
                     <artifactId>jsonassert</artifactId>
@@ -66,12 +153,22 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- start plugin-->
+        <!-- 修改后立即生效，热部署 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>springloaded</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
         <!--小辣椒插件，自动生成get/set/log等一系列便捷方法-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        <!-- end plugin-->
     </dependencies>
 
     <build>

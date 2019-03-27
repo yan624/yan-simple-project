@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/login/form-elements.css}">
+    <link rel="stylesheet" th:href="@{/css/login/style.css}">
+    <title>登录</title>
+</head>
+
+<body>
+<!-- Top content -->
+<div class="top-content">
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>登录/<a href="/register.html">转到注册</a></h3>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form role="form" action="login" method="post" id="login" class="login-form">
+                            <div class="form-group">
+                                <label class="sr-only" for="account">帐号</label>
+                                <input type="text" name="account" placeholder="账号"
+                                       class="form-username form-control" id="account">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="password">密码</label>
+                                <input type="password" name="password" placeholder="密码"
+                                       class="form-password form-control" id="password">
+                            </div>
+                            <div class="checkbox">
+                                <label class="control-label">
+                                    <input name="rememberMe" checked="checked" type="checkbox">记住我
+                                </label>
+                            </div>
+                            <button type="submit" class="btn">登录</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery-2.1.4.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/login/jquery.backstretch.min.js}"></script>
+<!--
+    <script th:inline="javascript" th:src="@{/js/login/load-background.js}" ></script>
+ -->
+<script th:inline="javascript">
+    jQuery(document).ready(function () {
+        /*
+            Fullscreen background
+        */
+        var backgrounds = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg'];
+        var length = backgrounds.length;
+        var img = backgrounds[Math.ceil(Math.random() * length) - 1];
+        $.backstretch("/images/backgrounds/" + img);
+        /*
+            Form validation
+        */
+        $('.login-form input[type="text"], .login-form input[type="password"], .login-form textarea').on('focus', function () {
+            $(this).removeClass('input-error');
+        });
+
+        $('.login-form').on('submit', function (e) {
+            $(this).find('input[type="text"], input[type="password"], textarea').each(function () {
+                if ($(this).val() == "") {
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+                } else {
+                    $(this).removeClass('input-error');
+                }
+            });
+        });
+    });
+</script>
+<!--[if lt IE 10]>
+<script th:src="@{/js/login/placeholder.js}"></script>
+<![endif]-->
+<script type="text/javascript">
+    //以下代码已无效，待改
+    $("#submit_login").click(function () {
+        var form_data = new FormData($("#login")[0]);
+        if ($("#password").val() == "") {
+            addErrorText("请输入密码！");
+        } else {
+            $.ajax({
+                type: "post",
+                url: "businessman/login",
+                data: "tel=" + form_data.get("tel") + "&password=" + form_data.get("password") + "&rememberMe=" + form_data.get("rememberMe"),
+                dataType: "json",
+                success: function (data) {
+                    if (data.code == 200)
+                        window.location.href = data.message;
+                    else if (data.code == 500) {
+                        addErrorText(data.message);
+                        $("#password").val("");
+                    }
+                }
+            });
+        }
+    });
+</script>
+</body>
+
+</html>
