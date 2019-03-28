@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Description:该类的loginUrl由com.yan624.upms.server.config.shiro.DelegateShiroConfiguration注入
- * 所以并不是所有的自定义filter都可以获取到这个loginUrl
  *
  * @Auther: Zhu Chongyan
  * @Date: 2018/8/8 23:02
