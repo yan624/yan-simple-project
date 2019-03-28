@@ -11,7 +11,7 @@ import java.io.*;
 
 /**
  * @Author: Zhu Chongyan
- * @program: study-video
+ * @program: simple project
  * @Date: 2019/03/27 15:10
  */
 public class MyRealm extends AuthorizingRealm {

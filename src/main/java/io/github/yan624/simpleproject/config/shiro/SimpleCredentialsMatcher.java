@@ -6,7 +6,7 @@ import org.apache.shiro.authc.credential.CredentialsMatcher;
 
 /**
  * @Author: Zhu Chongyan
- * @program: study-video
+ * @program: simple project
  * @Date: 2019/03/27 16:14
  */
 public class SimpleCredentialsMatcher implements CredentialsMatcher {
