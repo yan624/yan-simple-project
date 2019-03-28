@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @Author: Zhu Chongyan
- * @program: study-video
+ * @program: simple project
  * @Date: 2019/03/27 15:29
  */
 @RestController
